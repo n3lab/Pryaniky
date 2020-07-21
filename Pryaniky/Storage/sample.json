@@ -1,0 +1,32 @@
+{
+	"data": [{
+			"name": "hz",
+			"data": {
+				"text": "С‚СЂРёРЅРёС‚СЂРѕС‚РѕР»СѓРѕР»"
+			}
+		}, {
+			"name": "picture",
+			"data": {
+				"url": "https://pryaniky.com/static/img/logo-a-512.png",
+				"text": "РџСЂСЏРЅРёРєРё"
+			}
+		}, {
+			"name": "selector",
+			"data": {
+				"selectedId": 1,
+				"variants": [{
+						"id": 0,
+						"text": "Р’Р°СЂРёР°РЅС‚ 1"
+					}, {
+						"id": 1,
+						"text": "Р’Р°СЂРёР°РЅС‚ 2"
+					}, {
+						"id": 2,
+						"text": "Р’Р°СЂРёР°РЅС‚ 777"
+					}
+				]
+			}
+		}
+	],
+	"view": ["hz", "selector", "picture", "hz"]
+}
