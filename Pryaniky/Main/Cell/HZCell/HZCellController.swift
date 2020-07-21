@@ -11,31 +11,36 @@ import UIKit
 
 class HZCellController: TableCellController {
     
-    //fileprivate let item: ListItem
+    fileprivate let cellData: CellData
+    static let cellIdentifier = "HZCell"
+    var alertsDelegate: Alerts?
     
-    /*
-    init(item: ListItem) {
-        self.item = item
+    init(cellData: CellData) {
+        self.cellData = cellData
     }
-    */
-    
-    fileprivate static var cellIdentifier: String {
-        return String(describing: type(of: HZCell.self))
-    }
-    
+        
     static func registerCell(on tableView: UITableView) {
-        tableView.register(UINib(nibName: cellIdentifier, bundle: Bundle(for: HZCell.self)), forCellReuseIdentifier: cellIdentifier)
-    }
+        tableView.register(HZCell.self, forCellReuseIdentifier: cellIdentifier)
+        let nib = UINib(nibName: cellIdentifier, bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: cellIdentifier)
+}
     
     func cellFromTableView(_ tableView: UITableView, forIndexPath indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: type(of: self).cellIdentifier, for: indexPath) as! HZCell
+        //let cell = tableView.dequeueReusableCell(withIdentifier: type(of: self).cellIdentifier, for: indexPath) as! HZCell
+    
+        let cell = tableView.dequeueReusableCell(withIdentifier: HZCellController.cellIdentifier, for: indexPath) as! HZCell
         
-        // Configure photo cell...
+        cell.selectionStyle = .none
+        cell.nameLabel.text = cellData.text
         
         return cell
     }
     
     func didSelectCell() {
-        // Do something for photo...
+        print("name: \(String(describing: cellData.text))")
+        
+        if let name = cellData.text {
+            alertsDelegate?.presentAlert(title:"Текст", message: "Выбрано: \(name)")
+        }
     }
 }

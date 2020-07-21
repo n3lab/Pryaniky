@@ -9,33 +9,37 @@
 import Foundation
 import UIKit
 
-class SelectorCellController: TableCellController {
+class SelectorCellController: TableCellController, Alerts {
+
+    fileprivate let cellData: CellData
+    static let cellIdentifier = "SelectorCell"
+    var alertsDelegate: Alerts?
     
-    //fileprivate let item: ListItem
-    
-    /*
-    init(item: ListItem) {
-        self.item = item
+    init(cellData: CellData) {
+        self.cellData = cellData
     }
-    */
-    
-    fileprivate static var cellIdentifier: String {
-        return String(describing: type(of: SelectorCell.self))
-    }
-    
+
     static func registerCell(on tableView: UITableView) {
-        tableView.register(UINib(nibName: cellIdentifier, bundle: Bundle(for: SelectorCell.self)), forCellReuseIdentifier: cellIdentifier)
+        tableView.register(SelectorCell.self, forCellReuseIdentifier: cellIdentifier)
+        let nib = UINib(nibName: cellIdentifier, bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: cellIdentifier)
     }
     
     func cellFromTableView(_ tableView: UITableView, forIndexPath indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: type(of: self).cellIdentifier, for: indexPath) as! SelectorCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: SelectorCellController.cellIdentifier, for: indexPath) as! SelectorCell
         
-        // Configure photo cell...
-        
+        cell.selectionStyle = .none
+        cell.data = cellData
+        cell.alertsDelegate = self
         return cell
     }
     
     func didSelectCell() {
-        // Do something for photo...
+
+    }
+    
+    func presentAlert(title: String, message: String) {
+        
+        alertsDelegate?.presentAlert(title: title, message: message)
     }
 }

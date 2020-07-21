@@ -8,34 +8,42 @@
 
 import Foundation
 import UIKit
+import Kingfisher
 
 class PictureCellController: TableCellController {
     
-    //fileprivate let item: ListItem
+    fileprivate let cellData: CellData
+    static let cellIdentifier = "PictureCell"
+    var alertsDelegate: Alerts?
     
-    /*
-    init(item: ListItem) {
-        self.item = item
+    init(cellData: CellData) {
+        self.cellData = cellData
     }
-    */
-    
-    fileprivate static var cellIdentifier: String {
-        return String(describing: type(of: PictureCell.self))
-    }
-    
+        
     static func registerCell(on tableView: UITableView) {
-        tableView.register(UINib(nibName: cellIdentifier, bundle: Bundle(for: PictureCell.self)), forCellReuseIdentifier: cellIdentifier)
+        tableView.register(PictureCell.self, forCellReuseIdentifier: cellIdentifier)
+        let nib = UINib(nibName: cellIdentifier, bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: cellIdentifier)
     }
     
     func cellFromTableView(_ tableView: UITableView, forIndexPath indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: type(of: self).cellIdentifier, for: indexPath) as! PictureCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: PictureCellController.cellIdentifier, for: indexPath) as! PictureCell
         
-        // Configure photo cell...
+        cell.selectionStyle = .none
+        cell.nameLabel.text = cellData.text
         
+        if let url = URL(string: cellData.url ?? "") {
+            cell.pictureImageView.kf.setImage(with: url)
+        }
+
         return cell
     }
     
     func didSelectCell() {
-        // Do something for photo...
+        print("name: \(String(describing: cellData.text))")
+        
+        if let name = cellData.text {
+            alertsDelegate?.presentAlert(title:"Картинка", message: "Выбрано: \(name)")
+        }
     }
 }
